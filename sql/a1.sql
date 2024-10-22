@@ -1,4 +1,3 @@
-
 -- A1.2
 
 -- Tabelle: Geografie
@@ -50,8 +49,8 @@ CREATE TABLE Zeit (
     Jahr VARCHAR(4)
 );
 
--- Tabelle: Umsatztaten
-CREATE TABLE Umsatztaten (
+-- Tabelle: Umsatzdaten
+CREATE TABLE Umsatzdaten (
     Mon_ID VARCHAR(6),
     Land_ID VARCHAR(2),
     Produkt_ID VARCHAR(4),
@@ -67,6 +66,7 @@ CREATE TABLE Umsatztaten (
 
 
 -- A1.3
+-- Geografie
 INSERT INTO Geografie VALUES( '01', 'Sachsen' , 'Ost' , 'Deutschland' );
 INSERT INTO Geografie VALUES( '02', 'Bayern' , 'Süd' , 'Deutschland' );
 INSERT INTO Geografie VALUES( '03', 'Saarland' , 'West' , 'Deutschland' );
@@ -114,7 +114,7 @@ INSERT INTO Geografie VALUES( '44', 'Burgenland' , 'Österreich' , 'Österreich'
 INSERT INTO Geografie VALUES( '45', 'Steiermark' , 'Österreich' , 'Österreich' );
 INSERT INTO Geografie VALUES( '46', 'Kärnten' , 'Österreich' , 'Österreich' );
 
-
+-- MitarbeiterShop
 INSERT INTO MitarbeiterShop VALUES('01' , 'Sybille Neubert'); 
 INSERT INTO MitarbeiterShop VALUES('02' , NULL); 
 INSERT INTO MitarbeiterShop VALUES('03' , 'Maja Günther'); 
@@ -132,13 +132,12 @@ INSERT INTO MitarbeiterShop VALUES('17' , 'Sven Klaus');
 INSERT INTO MitarbeiterShop VALUES('18' , 'Jens Meier'); 
 INSERT INTO MitarbeiterShop VALUES('20' , 'Dorit Gille'); 
 
-
+-- Produktkategorie
 INSERT INTO Produktkategorie VALUES('01' , 'Backwaren' , NULL );
 INSERT INTO Produktkategorie VALUES('02' , 'Frischwaren' , 'Horst Lehmann' );
 INSERT INTO Produktkategorie VALUES('03' , 'Veggie' , 'Maja Günther' );
 
-
-
+-- Produktsubkategorie
 INSERT INTO Produktsubkategorie VALUES('001' , 'Bagels', 'Heidemarie Flügel' , '01' );
 INSERT INTO Produktsubkategorie VALUES('002' , 'Käse', 'Ralf Förster' , '02' );
 INSERT INTO Produktsubkategorie VALUES('003' , 'Hülsenfrüchte', 'Bärbel Blumberg' , '03' );
@@ -152,9 +151,7 @@ INSERT INTO Produktsubkategorie VALUES('010' , 'Brot', 'Heinrich Gans' , '01' );
 INSERT INTO Produktsubkategorie VALUES('011' , 'Sauerrahm', 'Sven Klaus' , '02' );
 INSERT INTO Produktsubkategorie VALUES('012' , 'Joghurt', 'Dorit Gille' , '02' );
 
-
-
-
+-- Produkt
 INSERT INTO Produkt VALUES('1001' , 'German' ,  'Leinsamen' ,CAST(REPLACE('2,45',  ',', '.') AS MONEY), '007' );
 INSERT INTO Produkt VALUES('1002' , 'German' ,  'Äpfel' ,CAST(REPLACE('1,2',  ',', '.') AS MONEY), '006' );
 INSERT INTO Produkt VALUES('1003' , 'German' ,  'Aubergine' ,CAST(REPLACE('3',  ',', '.') AS MONEY), '005' );
@@ -358,5 +355,162 @@ INSERT INTO Produkt VALUES('2409' , 'Sachsenmühle' ,  'Schokomuffins' ,CAST(REP
 
 
 
+-- A1.4 
+INSERT INTO Zeit (Mon_ID, Monatsname, Q_ID, Quartal, Jahr) VALUES
+('202101', 'Januar', '202101', '1. Quartal', '2021'),
+('202102', 'Februar', '202101', '1. Quartal', '2021'),
+('202103', 'März', '202101', '1. Quartal', '2021'),
+('202104', 'April', '202102', '2. Quartal', '2021'),
+('202105', 'Mai', '202102', '2. Quartal', '2021'),
+('202106', 'Juni', '202102', '2. Quartal', '2021'),
+('202107', 'Juli', '202103', '3. Quartal', '2021'),
+('202108', 'August', '202103', '3. Quartal', '2021'),
+('202109', 'September', '202103', '3. Quartal', '2021'),
+('202110', 'Oktober', '202104', '4. Quartal', '2021'),
+('202111', 'November', '202104', '4. Quartal', '2021'),
+('202112', 'Dezember', '202104', '4. Quartal', '2021'),
+('202201', 'Januar', '202201', '1. Quartal', '2022'),
+('202202', 'Februar', '202201', '1. Quartal', '2022'),
+('202203', 'März', '202201', '1. Quartal', '2022'),
+('202204', 'April', '202202', '2. Quartal', '2022'),
+('202205', 'Mai', '202202', '2. Quartal', '2022'),
+('202206', 'Juni', '202202', '2. Quartal', '2022'),
+('202207', 'Juli', '202203', '3. Quartal', '2022'),
+('202208', 'August', '202203', '3. Quartal', '2022'),
+('202209', 'September', '202203', '3. Quartal', '2022'),
+('202210', 'Oktober', '202204', '4. Quartal', '2022'),
+('202211', 'November', '202204', '4. Quartal', '2022'),
+('202212', 'Dezember', '202204', '4. Quartal', '2022');
 
-SELECT * FROM Produktsubkategorie;
+
+-- A1.5
+UPDATE MitarbeiterShop
+SET Name = 'Tom Bischopink'
+WHERE Mitarbeiter_ID = '02'
+
+
+UPDATE Produktkategorie
+SET Kategorie_Manager = 'Tom Bischopink'
+WHERE Kategorie_ID = '01'
+
+ALTER TABLE MitarbeiterShop ADD Manager_ID VARCHAR(2);
+ALTER TABLE MitarbeiterShop ADD CONSTRAINT  FK_Manager_ID FOREIGN KEY(Manager_ID) REFERENCES MitarbeiterShop(Mitarbeiter_ID)
+
+UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Heidemarie Flügel'
+UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Lutz Öresund'
+UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Heinrich Gans'
+
+UPDATE MitarbeiterShop SET Manager_ID = '03' WHERE Name in ('Ralf Förster', 'Gudrun Dammeier', 'Sven Klaus', 'Dorit Gille')
+
+UPDATE MitarbeiterShop SET Manager_ID = '04' WHERE Name in ('Bärbel Blumberg', 'Jonas Müller', 'Lucie Heinrich', 'Rebecca Kunze', 'Jens Meier')
+
+UPDATE MitarbeiterShop SET Manager_ID = '01' WHERE Name in ('Tom Bischopink', 'Horst Lehmann', 'Maja Günther', 'Sybille Neubert')
+SELECT * FROM MitarbeiterShop
+
+
+-- A1.6: siehe Database Diagrams
+
+-- A1.7
+
+-- A1.8
+-- a)
+CREATE TABLE UmsatzdatenTMP (
+    Mon_ID VARCHAR(6),
+    Land_ID VARCHAR(2),
+    Produkt_ID VARCHAR(4),
+    Mitarbeiter_ID VARCHAR(2),
+    Umsatzbetrag MONEY,
+    Umsatzmenge INTEGER,
+    PRIMARY KEY (Mon_ID, Land_ID, Produkt_ID, Mitarbeiter_ID),
+    FOREIGN KEY (Mon_ID) REFERENCES Zeit(Mon_ID),
+    FOREIGN KEY (Land_ID) REFERENCES Geografie(Land_ID),
+    FOREIGN KEY (Produkt_ID) REFERENCES Produkt(Produkt_ID),
+    FOREIGN KEY (Mitarbeiter_ID) REFERENCES MitarbeiterShop(Mitarbeiter_ID)
+);
+
+
+CREATE TABLE BelegeTMP (
+	Bon_ID VARCHAR(4),
+	Fil_ID VARCHAR(5),
+	Datum DATETIME,
+	Prod_ID VARCHAR(4),
+	Preis MONEY,
+	Anzahl INTEGER
+)
+
+-- b)
+
+BULK INSERT BelegeTMP
+FROM 'D:\BI\Belege_2021_1.csv'
+WITH (
+
+FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n',
+FIRSTROW = 2
+)
+
+BULK INSERT BelegeTMP
+FROM 'D:\BI\Belege_2021_2.csv'
+WITH (
+
+FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n',
+FIRSTROW = 2
+)
+
+BULK INSERT BelegeTMP
+FROM 'D:\BI\Belege_2021_3.csv'
+WITH (
+
+FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n',
+FIRSTROW = 2
+)
+
+BULK INSERT BelegeTMP
+FROM 'D:\BI\Belege_2021_4.csv'
+WITH (
+
+FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n',
+FIRSTROW = 2
+)
+
+BULK INSERT BelegeTMP
+FROM 'D:\BI\Belege_2022_1.csv'
+WITH (
+
+FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n',
+FIRSTROW = 2
+)
+
+BULK INSERT BelegeTMP
+FROM 'D:\BI\Belege_2022_2.csv'
+WITH (
+
+FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n',
+FIRSTROW = 2
+)
+
+BULK INSERT BelegeTMP
+FROM 'D:\BI\Belege_2022_3.csv'
+WITH (
+
+FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n',
+FIRSTROW = 2
+)
+
+BULK INSERT BelegeTMP
+FROM 'D:\BI\Belege_2022_4.csv'
+WITH (
+
+FIELDTERMINATOR = ',',
+ROWTERMINATOR = '\n',
+FIRSTROW = 2
+)
+
+
+SELECT * FROM BelegeTMP
