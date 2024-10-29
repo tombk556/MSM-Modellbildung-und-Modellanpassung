@@ -513,4 +513,44 @@ FIRSTROW = 2
 )
 
 
-SELECT * FROM BelegeTMP
+
+-- Insert in die UmsatzdatenTMP
+INSERT INTO UmsatzdatenTMP (Mon_ID, Land_ID, Produkt_ID, Mitarbeiter_ID, Umsatzbetrag, Umsatzmenge)
+SELECT 
+	CONCAT(DATEPART(YEAR, Datum), RIGHT('0' + CAST(DATEPART(MONTH, Datum) AS VARCHAR), 2)),
+	SUBSTRING(Fil_ID, 1, 2),
+	Prod_ID,
+	'01',
+    SUM(Preis * Anzahl),    -- Sum of Umsatzbetrag
+    SUM(Anzahl)
+
+FROM BelegeTMP
+GROUP BY 
+	CONCAT(DATEPART(YEAR, Datum), RIGHT('0' + CAST(DATEPART(MONTH, Datum) AS VARCHAR), 2)),
+	SUBSTRING(Fil_ID, 1, 2),
+	Prod_ID
+
+-- Update der Produktsubkategorie
+ALTER TABLE Produktsubkategorie ADD Manager_ID VARCHAR(2)
+UPDATE Produktsubkategorie SET Manager_ID = (SELECT Mitarbeiter_ID FROM MitarbeiterShop m WHERE m.Name = Produktsubkategorie.Subkategorie_Manager)
+
+
+-- Update der UmsatzdatenTMP (Mitarbeiter_ID)
+UPDATE UmsatzdatenTMP SET Mitarbeiter_ID = (
+SELECT 
+	Produktsubkategorie.Manager_ID
+
+FROM Produktsubkategorie 
+
+JOIN Produkt ON Produktsubkategorie.Subkategorie_ID = Produkt.Subkategorie_ID 
+WHERE  Produkt.Produkt_ID = UmsatzdatenTMP.Produkt_ID) -- Korreliert 
+
+
+SELECT SUM(Umsatzbetrag) FROM UmsatzdatenTMP
+
+-- Die Daten aus UmsatzdatenTMP in die Umsatzdaten insert
+INSERT INTO Umsatzdaten
+SELECT * FROM UmsatzdatenTMP
+
+
+
