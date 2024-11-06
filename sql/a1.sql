@@ -396,17 +396,15 @@ WHERE Kategorie_ID = '01'
 ALTER TABLE MitarbeiterShop ADD Manager_ID VARCHAR(2);
 ALTER TABLE MitarbeiterShop ADD CONSTRAINT  FK_Manager_ID FOREIGN KEY(Manager_ID) REFERENCES MitarbeiterShop(Mitarbeiter_ID)
 
-UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Heidemarie Flügel'
-UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Lutz Öresund'
-UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Heinrich Gans'
+UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Heidemarie Flügel';
+UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Lutz Öresund';
+UPDATE MitarbeiterShop SET Manager_ID = '02' WHERE Name = 'Heinrich Gans';
 
-UPDATE MitarbeiterShop SET Manager_ID = '03' WHERE Name in ('Ralf Förster', 'Gudrun Dammeier', 'Sven Klaus', 'Dorit Gille')
+UPDATE MitarbeiterShop SET Manager_ID = '08' WHERE Name in ('Ralf Förster', 'Gudrun Dammeier', 'Dorit Gille', 'Sven Klaus');
 
-UPDATE MitarbeiterShop SET Manager_ID = '04' WHERE Name in ('Bärbel Blumberg', 'Jonas Müller', 'Lucie Heinrich', 'Rebecca Kunze', 'Jens Meier')
+UPDATE MitarbeiterShop SET Manager_ID = '03' WHERE Name in ('Bärbel Blumberg', 'Jonas Müller', 'Lucie Heinrich', 'Rebecca Kunze', 'Jens Meier');
 
-UPDATE MitarbeiterShop SET Manager_ID = '01' WHERE Name in ('Tom Bischopink', 'Horst Lehmann', 'Maja Günther', 'Sybille Neubert')
-SELECT * FROM MitarbeiterShop
-
+UPDATE MitarbeiterShop SET Manager_ID = '01' WHERE Name in ('Tom Bischopink', 'Horst Lehmann', 'Maja Günther', 'Sybille Neubert');
 
 -- A1.6: siehe Database Diagrams
 
